@@ -27,10 +27,12 @@ export const insertRowAction = createAction({
 
     },
     async run({propsValue, auth}) {
+        let startingRow = "!A:A";
         const values = propsValue['values'];
-        const sheetName = await googleSheetsCommon.findSheetName(auth['access_token'], propsValue['spreadsheet_id'], propsValue['sheet_id']);            
+        const sheetName = await googleSheetsCommon.findSheetName(auth['access_token'], propsValue['spreadsheet_id'], propsValue['sheet_id']);
         let formattedValues;
         if( propsValue.first_row_headers ){
+            startingRow = "!B:B";
             formattedValues = objectToArray(values);
             for( let i = 0 ; i < formattedValues.length ; i++ ){
                 if( isNil(formattedValues[i]) ) formattedValues[i] = '';
@@ -41,7 +43,7 @@ export const insertRowAction = createAction({
         const res = await googleSheetsCommon.appendGoogleSheetValues({
             accessToken: auth['access_token'],
             majorDimension: Dimension.COLUMNS,
-            range: sheetName,
+            range: sheetName + startingRow,
             spreadSheetId: propsValue['spreadsheet_id'],
             valueInputOption: propsValue['as_string']
                 ? ValueInputOption.RAW

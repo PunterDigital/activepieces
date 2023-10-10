@@ -239,7 +239,7 @@ export async function getGoogleSheetRows(params: { accessToken: string; sheetNam
         for (let j = 0; j < response.body.values[i].length; j++) {
             values[columnToLabel(j)] = response.body.values[i][j];
         }
-        
+
         res.push({
             row: i + params.rowIndex_s,
             values
@@ -267,7 +267,7 @@ export async function getAllGoogleSheetRows(params: { accessToken: string; sheet
         for (let j = 0; j < response.body.values[i].length; j++) {
             values[columnToLabel(j)] = response.body.values[i][j];
         }
-        
+
         res.push({
             row: i + 1,
             values
@@ -310,7 +310,7 @@ async function updateGoogleSheetRow(params: UpdateGoogleSheetRowParams) {
 async function appendGoogleSheetValues(params: AppendGoogleSheetValuesParams) {
     const requestBody = {
         majorDimension: params.majorDimension,
-        range: params.range + "!A:A",
+        range: params.range,
         values: params.values.map(val => ({ values: val })),
     };
 
